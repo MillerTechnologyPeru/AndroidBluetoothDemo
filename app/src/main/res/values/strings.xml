@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">AndroidBluetoothDemo</string>
+    <string name="message_bt_turn_on">Press for TURN IT ON</string>
+    <string name="message_bt_turn_off">Press for TURN IT OFF</string>
 </resources>
