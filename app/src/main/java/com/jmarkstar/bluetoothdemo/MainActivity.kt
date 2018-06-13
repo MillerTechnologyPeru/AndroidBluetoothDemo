@@ -1,5 +1,6 @@
 package com.jmarkstar.bluetoothdemo
 
+import android.Manifest
 import android.app.Activity
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice
@@ -7,6 +8,8 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.content.pm.PackageManager
+import android.os.Build
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
@@ -18,6 +21,7 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         const val REQUEST_ENABLE_BT = 1000
+        const val REQUEST_PERMISSION_GPS = 1200
     }
 
     private val bluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
@@ -39,7 +43,7 @@ class MainActivity : AppCompatActivity() {
     // BluetoothAdapter.ACTION_DISCOVERY_STARTED
     private val bluetoothDiscoveryStarted = object: BroadcastReceiver(){
 
-        override fun onReceive(context: Context?, intent: Intent?) {
+        override fun onReceive(context: Context?, intent: Intent) {
             tvDiscoveryMessage.text = "Discovery have started"
             tvDiscoveryMessage.setTextColor(ContextCompat.getColor(this@MainActivity, R.color.green))
         }
@@ -94,7 +98,16 @@ class MainActivity : AppCompatActivity() {
 
         btnStartDiscovery.setOnClickListener {
             Log.i("MainActivity","starting discovery")
-            startDiscovery()
+
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+                if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED){
+                    startDiscovery()
+                } else {
+                    requestPermissions(arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION), 1200)
+                }
+            }else{
+                startDiscovery()
+            }
         }
     }
 
@@ -129,6 +142,17 @@ class MainActivity : AppCompatActivity() {
 
         if(bluetoothAdapter.isDiscovering)
             bluetoothAdapter.cancelDiscovery()
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if(requestCode == REQUEST_PERMISSION_GPS){
+            if(grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                startDiscovery()
+            }else{
+                Toast.makeText(this, "GPS Permission is required", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
