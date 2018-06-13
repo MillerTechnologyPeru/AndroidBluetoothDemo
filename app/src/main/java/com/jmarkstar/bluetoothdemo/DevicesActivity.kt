@@ -129,7 +129,9 @@ class DevicesActivity : AppCompatActivity() {
 
     private fun setOnDeviceClick(){
         deviceAdapter.onDeviceClick = { device ->
-
+            val intent = Intent(this, DeviceDetailActivity::class.java)
+            intent.putExtra("device", device)
+            startActivity(intent)
         }
     }
 
@@ -217,12 +219,6 @@ class DevicesActivity : AppCompatActivity() {
             val rssi = intent.getShortExtra(BluetoothDevice.EXTRA_RSSI, java.lang.Short.MIN_VALUE)
 
             deviceAdapter.addDevice(device, rssi)
-
-            Log.i("MainActivity", "Bluetooth Device: ${device.name}, ${device.address}, ${device.bondState}, ${device.type}, $rssi ")
-            if(device.uuids != null)
-                for(uuid in device.uuids){
-                    Log.i("MainActivity","Bluetooth Device: ${device.name} - uuid: $uuid")
-                }
         }
     }
 }
