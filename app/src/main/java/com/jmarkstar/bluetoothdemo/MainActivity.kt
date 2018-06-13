@@ -13,6 +13,7 @@ import android.os.Build
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
+import android.support.v7.widget.DividerItemDecoration
 import android.util.Log
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
@@ -70,6 +71,8 @@ class MainActivity : AppCompatActivity() {
             // but should be displayed in "dBm" units
             val rssi = intent.getShortExtra(BluetoothDevice.EXTRA_RSSI, java.lang.Short.MIN_VALUE)
 
+            deviceAdapter.addDevice(device, rssi)
+
             Log.i("MainActivity", "Bluetooth Device: ${device.name}, ${device.address}, ${device.bondState}, ${device.type}, $rssi ")
             if(device.uuids != null)
                 for(uuid in device.uuids){
@@ -78,9 +81,14 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private val deviceAdapter = BluetoothDeviceAdapter()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        rvDevices.adapter = deviceAdapter
+        rvDevices.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
 
         btnEnable.setOnClickListener {
             isDiscovering = false
@@ -171,6 +179,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun startDiscovery(){
+        deviceAdapter.refresh()
         if(bluetoothAdapter.isDiscovering)
             bluetoothAdapter.cancelDiscovery()
         val state = bluetoothAdapter.startDiscovery()
