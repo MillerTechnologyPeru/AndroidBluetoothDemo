@@ -5,9 +5,9 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import kotlinx.android.synthetic.main.device_item.view.*
+import kotlinx.android.synthetic.main.activity_devices_item.view.*
 
-class BluetoothDeviceAdapter: RecyclerView.Adapter<BluetoothDeviceAdapter.DeviceVH>() {
+class BluetoothDeviceAdapter(var onDeviceClick: ((BluetoothDevice) -> Unit)? = null): RecyclerView.Adapter<BluetoothDeviceAdapter.DeviceVH>() {
 
     private val devices = ArrayList<BluetoothDevice>()
     private val rssiList = ArrayList<Short>()
@@ -38,7 +38,7 @@ class BluetoothDeviceAdapter: RecyclerView.Adapter<BluetoothDeviceAdapter.Device
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DeviceVH {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.device_item, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.activity_devices_item, parent, false)
         return DeviceVH(view)
     }
 
@@ -51,6 +51,12 @@ class BluetoothDeviceAdapter: RecyclerView.Adapter<BluetoothDeviceAdapter.Device
         holder.tvName.text = device.name ?: "No Name"
         holder.tvAddress.text = device.address
         holder.tvRssi.text = "${rssiList[position]}"
+
+        holder.itemView.setOnClickListener {
+            if(onDeviceClick!=null){
+                onDeviceClick?.invoke(device)
+            }
+        }
     }
 
     class DeviceVH(itemView: View): RecyclerView.ViewHolder(itemView) {

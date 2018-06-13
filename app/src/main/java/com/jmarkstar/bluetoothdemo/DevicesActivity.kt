@@ -16,9 +16,9 @@ import android.support.v4.content.ContextCompat
 import android.support.v7.widget.DividerItemDecoration
 import android.util.Log
 import android.widget.Toast
-import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_devices.*
 
-class MainActivity : AppCompatActivity() {
+class DevicesActivity : AppCompatActivity() {
 
     companion object {
         const val REQUEST_ENABLE_BT = 1000
@@ -29,64 +29,13 @@ class MainActivity : AppCompatActivity() {
 
     private var isDiscovering = false
 
-    // BluetoothAdapter.ACTION_STATE_CHANGED
-    private val blueoothChangeStateReceiver = object: BroadcastReceiver(){
-
-        override fun onReceive(context: Context?, intent: Intent) {
-            val state = intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, BluetoothAdapter.ERROR)
-            val previousState = intent.getIntExtra(BluetoothAdapter.EXTRA_PREVIOUS_STATE, -1)
-
-            Log.v("BroadcastReceiver", "$previousState - $state")
-            handleStates(state)
-        }
-    }
-
-    // BluetoothAdapter.ACTION_DISCOVERY_STARTED
-    private val bluetoothDiscoveryStarted = object: BroadcastReceiver(){
-
-        override fun onReceive(context: Context?, intent: Intent) {
-            tvDiscoveryMessage.text = "Discovery have started"
-            tvDiscoveryMessage.setTextColor(ContextCompat.getColor(this@MainActivity, R.color.green))
-        }
-    }
-
-    // BluetoothAdapter.ACTION_DISCOVERY_FINISHED
-    private val bluetoothDiscoveryFinished = object: BroadcastReceiver(){
-
-        override fun onReceive(context: Context?, intent: Intent?) {
-            tvDiscoveryMessage.text = "Discovery have finished"
-            tvDiscoveryMessage.setTextColor(ContextCompat.getColor(this@MainActivity, R.color.red))
-        }
-    }
-
-    // BluetoothDevice.ACTION_FOUND
-    private val bluetoothDiscoveredDevices = object: BroadcastReceiver(){
-
-        override fun onReceive(context: Context?, intent: Intent) {
-
-            // Get the bluetoothDevice object from the Intent
-            val device = intent.getParcelableExtra<BluetoothDevice>(BluetoothDevice.EXTRA_DEVICE)
-
-            // Get the "RSSI" to get the signal strength as integer,
-            // but should be displayed in "dBm" units
-            val rssi = intent.getShortExtra(BluetoothDevice.EXTRA_RSSI, java.lang.Short.MIN_VALUE)
-
-            deviceAdapter.addDevice(device, rssi)
-
-            Log.i("MainActivity", "Bluetooth Device: ${device.name}, ${device.address}, ${device.bondState}, ${device.type}, $rssi ")
-            if(device.uuids != null)
-                for(uuid in device.uuids){
-                    Log.i("MainActivity","Bluetooth Device: ${device.name} - uuid: $uuid")
-                }
-        }
-    }
-
     private val deviceAdapter = BluetoothDeviceAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_devices)
 
+        setOnDeviceClick()
         rvDevices.adapter = deviceAdapter
         rvDevices.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
 
@@ -178,6 +127,12 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun setOnDeviceClick(){
+        deviceAdapter.onDeviceClick = { device ->
+
+        }
+    }
+
     private fun startDiscovery(){
         deviceAdapter.refresh()
         if(bluetoothAdapter.isDiscovering)
@@ -198,7 +153,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun handleStates(state: Int = bluetoothAdapter.state){
 
-        var stateString = when(state){
+        val stateString = when(state){
             BluetoothAdapter.STATE_OFF -> {
                 tvBluetoothStateMessage.setTextColor(ContextCompat.getColor(this, R.color.green))
                 tvBluetoothStateMessage.text = getString(R.string.message_bt_turn_on)
@@ -217,5 +172,57 @@ class MainActivity : AppCompatActivity() {
         }
 
         btnBluetoothState.text = stateString
+    }
+
+    // BluetoothAdapter.ACTION_STATE_CHANGED
+    private val blueoothChangeStateReceiver = object: BroadcastReceiver(){
+
+        override fun onReceive(context: Context?, intent: Intent) {
+            val state = intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, BluetoothAdapter.ERROR)
+            val previousState = intent.getIntExtra(BluetoothAdapter.EXTRA_PREVIOUS_STATE, -1)
+
+            Log.v("BroadcastReceiver", "$previousState - $state")
+            handleStates(state)
+        }
+    }
+
+    // BluetoothAdapter.ACTION_DISCOVERY_STARTED
+    private val bluetoothDiscoveryStarted = object: BroadcastReceiver(){
+
+        override fun onReceive(context: Context?, intent: Intent) {
+            tvDiscoveryMessage.text = "Discovery have started"
+            tvDiscoveryMessage.setTextColor(ContextCompat.getColor(this@DevicesActivity, R.color.green))
+        }
+    }
+
+    // BluetoothAdapter.ACTION_DISCOVERY_FINISHED
+    private val bluetoothDiscoveryFinished = object: BroadcastReceiver(){
+
+        override fun onReceive(context: Context?, intent: Intent?) {
+            tvDiscoveryMessage.text = "Discovery have finished"
+            tvDiscoveryMessage.setTextColor(ContextCompat.getColor(this@DevicesActivity, R.color.red))
+        }
+    }
+
+    // BluetoothDevice.ACTION_FOUND
+    private val bluetoothDiscoveredDevices = object: BroadcastReceiver(){
+
+        override fun onReceive(context: Context?, intent: Intent) {
+
+            // Get the bluetoothDevice object from the Intent
+            val device = intent.getParcelableExtra<BluetoothDevice>(BluetoothDevice.EXTRA_DEVICE)
+
+            // Get the "RSSI" to get the signal strength as integer,
+            // but should be displayed in "dBm" units
+            val rssi = intent.getShortExtra(BluetoothDevice.EXTRA_RSSI, java.lang.Short.MIN_VALUE)
+
+            deviceAdapter.addDevice(device, rssi)
+
+            Log.i("MainActivity", "Bluetooth Device: ${device.name}, ${device.address}, ${device.bondState}, ${device.type}, $rssi ")
+            if(device.uuids != null)
+                for(uuid in device.uuids){
+                    Log.i("MainActivity","Bluetooth Device: ${device.name} - uuid: $uuid")
+                }
+        }
     }
 }
