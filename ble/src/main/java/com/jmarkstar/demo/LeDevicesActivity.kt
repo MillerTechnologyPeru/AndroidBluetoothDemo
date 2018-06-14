@@ -31,12 +31,18 @@ class LeDevicesActivity : AppCompatActivity() {
 
     private var isScanning = false
 
+    val bleDeviceAdapter = BleDeviceAdapter()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_le_devices)
 
         bluetoothChangeStateReceiver = BluetoothChangeStateReceiver(this)
         leScanCallback = DemoLeScanCallback(this)
+
+        onDemoBleDeviceItemClick()
+
+        rvDevices.adapter = bleDeviceAdapter
 
         btnScanLeDevices.setOnClickListener {
             onScanLeDevices()
@@ -100,17 +106,23 @@ class LeDevicesActivity : AppCompatActivity() {
         }
     }
 
-    fun startScan(){
+    private fun startScan(){
         btnScanLeDevices.text = getString(R.string.scan_stop)
         pgScanning.visibility = View.VISIBLE
         bluetoothAdapter.bluetoothLeScanner.startScan(leScanCallback)
         isScanning = true
     }
 
-    fun stopScan(){
+    private fun stopScan(){
         btnScanLeDevices.text = getString(R.string.scan_start)
         pgScanning.visibility = View.GONE
         bluetoothAdapter.bluetoothLeScanner.stopScan(leScanCallback)
         isScanning = false
+    }
+
+    private fun onDemoBleDeviceItemClick(){
+        bleDeviceAdapter.onDeviceClick = {
+
+        }
     }
 }

@@ -5,18 +5,24 @@ import android.bluetooth.le.ScanResult
 import android.util.Log
 import com.jmarkstar.demo.LeDevicesActivity
 
-class DemoLeScanCallback(activity: LeDevicesActivity): ScanCallback() {
+class DemoLeScanCallback(val activity: LeDevicesActivity): ScanCallback() {
 
     override fun onBatchScanResults(results: MutableList<ScanResult>?) {
         super.onBatchScanResults(results)
-
-
+        Log.i("batch", "hello")
+        results?.forEach { result ->
+            Log.i("batch", "${result.device?.name} - ${result.device?.address} - ${result.rssi}")
+        }
     }
 
     override fun onScanResult(callbackType: Int, result: ScanResult?) {
         super.onScanResult(callbackType, result)
 
-        Log.i("DemoLeScanCallback", "${result?.device} - ${result?.rssi}")
+        Log.i("DemoLeScanCallback", "${result?.device?.name} - ${result?.device?.address} - ${result?.rssi}")
+
+        val demoBleDevice = DemoBleDevice(result?.device!!, result.rssi)
+
+        activity.bleDeviceAdapter.addDevice(demoBleDevice)
     }
 
     override fun onScanFailed(errorCode: Int) {

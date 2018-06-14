@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <ImageView
+    <ImageView android:id="@+id/ivLogo"
         android:src="@drawable/ic_bluetooth"
         android:layout_weight="1"
         android:layout_width="0dp"
