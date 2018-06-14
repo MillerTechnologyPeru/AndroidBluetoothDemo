@@ -57,7 +57,7 @@ class BleDeviceAdapter(var onDeviceClick: ((DemoBleDevice) -> Unit)? = null): Re
     }
 
     class DeviceVH(itemView: View): RecyclerView.ViewHolder(itemView) {
-        val ivLogo = itemView.ivLogo
+
         val tvName = itemView.tvName
         val tvAddress = itemView.tvAddress
         val tvRssi = itemView.tvRssi
