@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">ble</string>
-    <string name="scan_le_devices">Scan LE Devices</string>
+    <string name="scan_start">Start Scan</string>
+    <string name="scan_stop">Stop Scan</string>
 </resources>

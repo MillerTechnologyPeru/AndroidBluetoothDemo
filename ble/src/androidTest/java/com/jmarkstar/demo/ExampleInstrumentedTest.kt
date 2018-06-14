@@ -1,4 +1,4 @@
-package com.jmarkstar.ble
+package com.jmarkstar.demo
 
 import android.support.test.InstrumentationRegistry
 import android.support.test.runner.AndroidJUnit4

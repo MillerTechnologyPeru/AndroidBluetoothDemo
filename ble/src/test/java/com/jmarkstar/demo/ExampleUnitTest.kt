@@ -1,4 +1,4 @@
-package com.jmarkstar.ble
+package com.jmarkstar.demo
 
 import org.junit.Test
 

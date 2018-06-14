@@ -7,7 +7,7 @@ android {
 
 
     defaultConfig {
-        applicationId "com.jmarkstar.ble"
+        applicationId "com.jmarkstar.demo"
         minSdkVersion 21
         targetSdkVersion 27
         versionCode 1

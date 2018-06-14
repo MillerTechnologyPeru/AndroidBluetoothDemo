@@ -1,9 +1,7 @@
-package com.jmarkstar.ble
+package com.jmarkstar.demo
 
 import android.Manifest
 import android.bluetooth.BluetoothAdapter
-import android.content.BroadcastReceiver
-import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.PackageManager
@@ -13,7 +11,9 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
-import com.jmarkstar.ble.broadcastreceivers.BluetoothChangeStateReceiver
+import com.jmarkstar.demo.R
+import com.jmarkstar.demo.broadcastreceivers.BluetoothChangeStateReceiver
+import com.jmarkstar.demo.le.DemoLeScanCallback
 import kotlinx.android.synthetic.main.activity_le_devices.*
 
 class LeDevicesActivity : AppCompatActivity() {
@@ -27,9 +27,16 @@ class LeDevicesActivity : AppCompatActivity() {
 
     private var bluetoothChangeStateReceiver : BluetoothChangeStateReceiver? = null
 
+    private var leScanCallback: DemoLeScanCallback? = null
+
+    private var isScanning = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_le_devices)
+
+        bluetoothChangeStateReceiver = BluetoothChangeStateReceiver(this)
+        leScanCallback = DemoLeScanCallback(this)
 
         btnScanLeDevices.setOnClickListener {
             onScanLeDevices()
@@ -38,14 +45,14 @@ class LeDevicesActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        //Enable
-        bluetoothChangeStateReceiver = BluetoothChangeStateReceiver(this)
+
         val intentFilter = IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED)
         registerReceiver(bluetoothChangeStateReceiver, intentFilter)
     }
 
     override fun onPause() {
         super.onPause()
+
         unregisterReceiver(bluetoothChangeStateReceiver)
     }
 
@@ -86,12 +93,24 @@ class LeDevicesActivity : AppCompatActivity() {
     //#3 SCAN THE DEVICES
     private fun startDiscovery() {
 
+        if(isScanning){
+            stopScan()
+        }else{
+            startScan()
+        }
+    }
+
+    fun startScan(){
+        btnScanLeDevices.text = getString(R.string.scan_stop)
         pgScanning.visibility = View.VISIBLE
+        bluetoothAdapter.bluetoothLeScanner.startScan(leScanCallback)
+        isScanning = true
+    }
 
-        //bluetoothAdapter.bluetoothLeScanner.startScan()
-
-        //bluetoothAdapter.bluetoothLeScanner.stopScan()
-
-        Toast.makeText(this, "Ready for scanning", Toast.LENGTH_SHORT).show()
+    fun stopScan(){
+        btnScanLeDevices.text = getString(R.string.scan_start)
+        pgScanning.visibility = View.GONE
+        bluetoothAdapter.bluetoothLeScanner.stopScan(leScanCallback)
+        isScanning = false
     }
 }

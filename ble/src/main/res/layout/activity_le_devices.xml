@@ -5,14 +5,14 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LeDevicesActivity">
+    tools:context="com.jmarkstar.demo.LeDevicesActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <Button android:id="@+id/btnScanLeDevices"
-            android:text="@string/scan_le_devices"
+            android:text="@string/scan_start"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
