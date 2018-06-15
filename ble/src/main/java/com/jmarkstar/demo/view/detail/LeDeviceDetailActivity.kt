@@ -10,6 +10,7 @@ import com.jmarkstar.demo.le.DemoLeDevice
 import com.jmarkstar.demo.le.DemoLeUtils
 import android.widget.Toast
 import com.jmarkstar.demo.R
+import kotlinx.android.synthetic.main.activity_le_device_detail.*
 
 
 class LeDeviceDetailActivity : AppCompatActivity() {
@@ -96,9 +97,16 @@ class LeDeviceDetailActivity : AppCompatActivity() {
         btnConnectGatt.visibility = View.VISIBLE
         pgConnecting.visibility = View.GONE
         isConnected = false
+
+        rvGattInfo.adapter = null
     }
 
     fun connectionFailure(status: Int){
         Toast.makeText(this, "Gatt connection error: $status", Toast.LENGTH_SHORT).show()
+    }
+
+    fun showGattInfo(gattInfoList: ArrayList<GattInfoItem>){
+        val gattInfoAdapter = GattInfoAdapter(this, gattInfoList)
+        rvGattInfo.adapter = gattInfoAdapter
     }
 }

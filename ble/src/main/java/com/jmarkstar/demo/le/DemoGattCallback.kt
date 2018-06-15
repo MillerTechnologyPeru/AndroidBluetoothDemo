@@ -3,6 +3,9 @@ package com.jmarkstar.demo.le
 import android.bluetooth.*
 import android.os.Handler
 import android.util.Log
+import com.jmarkstar.demo.view.detail.GattCharacteristic
+import com.jmarkstar.demo.view.detail.GattInfoItem
+import com.jmarkstar.demo.view.detail.GattService
 import com.jmarkstar.demo.view.detail.LeDeviceDetailActivity
 
 class DemoGattCallback(private val activity: LeDeviceDetailActivity): BluetoothGattCallback() {
@@ -38,17 +41,27 @@ class DemoGattCallback(private val activity: LeDeviceDetailActivity): BluetoothG
             return
         }
 
+        val gattInfoList = ArrayList<GattInfoItem>()
+
         gatt?.services?.forEachIndexed { serviceIndex, service ->
+
+            gattInfoList.add(GattService(service.uuid.toString(), DemoLeUtils.showServiceType(service.type)))
 
             Log.v("gatt service $serviceIndex", "${DemoLeUtils.showServiceType(service.type)} - ${service.uuid}")
 
             service.characteristics.forEachIndexed { characIndex, characteristic ->
+
+                gattInfoList.add(GattCharacteristic(characteristic?.uuid.toString(), DemoLeUtils.showCharacteristicPropery(characteristic?.properties!!), DemoLeUtils.showCharacteristicPermission(characteristic.permissions)))
 
                 Log.v("onCharacteristicRead", "${characteristic?.uuid} - " +
                         "${DemoLeUtils.showCharacteristicPropery(characteristic?.properties!!)} - " +
                         "${DemoLeUtils.showCharacteristicPermission(characteristic.permissions)} ")
                 //gatt.readCharacteristic(characteristic)
             }
+        }
+
+        handler.post{
+            activity.showGattInfo(gattInfoList)
         }
     }
 

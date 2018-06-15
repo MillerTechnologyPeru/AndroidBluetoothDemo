@@ -15,6 +15,7 @@
 
     <TextView android:id="@+id/tvServiceUuid"
         android:text="UUID: 434343-434334-343433-343"
+        android:textSize="13sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 

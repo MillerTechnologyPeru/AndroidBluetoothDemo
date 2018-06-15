@@ -1,6 +1,6 @@
 package com.jmarkstar.demo.view.detail
 
-interface GattItemType {
+interface GattInfoItem {
 
     companion object {
         val GATT_SERVICE: Int

@@ -14,4 +14,11 @@
     <string name="gatt_connected">CONNECTED</string>
     <string name="gatt_connect">CONNECT</string>
     <string name="gatt_disconnect">DISCONNECT</string>
+
+    <string name="service_type">Service: %1$s</string>
+    <string name="service_uuid">UUID: %1$s</string>
+
+    <string name="char_uuid">UUID: %1$s</string>
+    <string name="char_property">PROPERTY: %1$s</string>
+    <string name="char_permission">PERMISSION: %1$s</string>
 </resources>

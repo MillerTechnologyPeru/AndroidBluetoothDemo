@@ -15,6 +15,7 @@
 
     <TextView android:id="@+id/tvUuid"
         android:text="UUID: 434343-434334-343433-343"
+        android:textSize="13sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
@@ -25,12 +26,14 @@
 
         <TextView android:id="@+id/tvProperty"
             android:text="PROPERTY: READ"
+            android:textSize="12sp"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content" />
 
         <TextView android:id="@+id/tvPermission"
             android:text="PERMISSION: UNKNOW"
+            android:textSize="12sp"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content" />

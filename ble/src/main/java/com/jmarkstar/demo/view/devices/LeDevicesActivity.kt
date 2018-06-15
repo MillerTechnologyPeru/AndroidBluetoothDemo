@@ -17,6 +17,7 @@ import com.jmarkstar.demo.view.detail.LeDeviceDetailActivity
 import com.jmarkstar.demo.R
 import com.jmarkstar.demo.broadcastreceivers.BluetoothChangeStateReceiver
 import com.jmarkstar.demo.le.DemoLeScanCallback
+import kotlinx.android.synthetic.main.activity_le_devices.*
 
 class LeDevicesActivity : AppCompatActivity() {
 
