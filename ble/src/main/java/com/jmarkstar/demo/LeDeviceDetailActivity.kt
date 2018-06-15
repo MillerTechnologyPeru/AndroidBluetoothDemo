@@ -3,11 +3,15 @@ package com.jmarkstar.demo
 import android.bluetooth.BluetoothGatt
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.view.MenuItem
 import android.view.View
 import com.jmarkstar.demo.le.DemoGattCallback
 import com.jmarkstar.demo.le.DemoLeDevice
 import com.jmarkstar.demo.le.DemoLeUtils
 import kotlinx.android.synthetic.main.activity_le_device_detail.*
+import android.support.v4.app.NavUtils
+
+
 
 class LeDeviceDetailActivity : AppCompatActivity() {
 
@@ -15,11 +19,11 @@ class LeDeviceDetailActivity : AppCompatActivity() {
         const val DEVICE_PARAM = "intent_device_param"
     }
 
+    var gatt: BluetoothGatt? = null
+
     private var gattCallback: DemoGattCallback? = null
     private var demoLeDevice: DemoLeDevice? = null
-
-    var isConnected = false
-    var gatt: BluetoothGatt? = null
+    private var isConnected = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,8 +31,10 @@ class LeDeviceDetailActivity : AppCompatActivity() {
 
         gattCallback = DemoGattCallback(this)
 
-        demoLeDevice = intent.getParcelableExtra<DemoLeDevice>(DEVICE_PARAM)
+        demoLeDevice = intent.getParcelableExtra(DEVICE_PARAM)
 
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        title = demoLeDevice?.data?.name ?: "No Name"
         tvDeviceName.text = String.format(getString(R.string.device_name), demoLeDevice?.data?.name ?: "No Name")
         tvDeviceAddress.text = String.format(getString(R.string.device_address), demoLeDevice?.data?.address)
         tvDeviceType.text = String.format(getString(R.string.device_type), DemoLeUtils.showDeviceType(demoLeDevice?.data?.type!!))
@@ -45,14 +51,21 @@ class LeDeviceDetailActivity : AppCompatActivity() {
         }
     }
 
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        return when (item?.itemId) {
+            android.R.id.home -> {
+                finish()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
     private fun connectGatt(){
-
-        demoLeDevice?.data?.connectGatt(this, false, gattCallback)
-
         btnConnectGatt.visibility = View.GONE
         pgConnecting.visibility = View.VISIBLE
 
-
+        demoLeDevice?.data?.connectGatt(this, false, gattCallback)
     }
 
     private fun disconnectGatt(){
