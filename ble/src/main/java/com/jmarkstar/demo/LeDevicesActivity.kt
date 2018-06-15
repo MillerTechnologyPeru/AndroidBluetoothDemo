@@ -11,7 +11,6 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
-import com.jmarkstar.demo.R
 import com.jmarkstar.demo.broadcastreceivers.BluetoothChangeStateReceiver
 import com.jmarkstar.demo.le.DemoLeScanCallback
 import kotlinx.android.synthetic.main.activity_le_devices.*
@@ -111,6 +110,7 @@ class LeDevicesActivity : AppCompatActivity() {
         pgScanning.visibility = View.VISIBLE
         bluetoothAdapter.bluetoothLeScanner.startScan(leScanCallback)
         isScanning = true
+        bleDeviceAdapter.refresh()
     }
 
     private fun stopScan(){
@@ -122,7 +122,10 @@ class LeDevicesActivity : AppCompatActivity() {
 
     private fun onDemoBleDeviceItemClick(){
         bleDeviceAdapter.onDeviceClick = {
-
+            stopScan()
+            val intent = Intent(this, LeDeviceDetailActivity::class.java)
+            intent.putExtra(LeDeviceDetailActivity.DEVICE_PARAM, it)
+            startActivity(intent)
         }
     }
 }

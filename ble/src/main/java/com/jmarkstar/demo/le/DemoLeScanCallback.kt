@@ -20,9 +20,9 @@ class DemoLeScanCallback(val activity: LeDevicesActivity): ScanCallback() {
 
         Log.i("DemoLeScanCallback", "${result?.device?.name} - ${result?.device?.address} - ${result?.rssi}")
 
-        val demoBleDevice = DemoBleDevice(result?.device!!, result.rssi)
+        val demoLeDevice = DemoLeDevice(result?.device!!, result.rssi)
 
-        activity.bleDeviceAdapter.addDevice(demoBleDevice)
+        activity.bleDeviceAdapter.addDevice(demoLeDevice)
     }
 
     override fun onScanFailed(errorCode: Int) {
