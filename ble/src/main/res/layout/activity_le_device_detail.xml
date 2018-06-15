@@ -67,24 +67,25 @@
                 android:layout_height="wrap_content" />
         </LinearLayout>
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_marginTop="12dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <Button android:id="@+id/btnConnectGatt"
-                android:text="@string/connect_gatt"
+                android:text="@string/gatt_connect"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
             <ProgressBar android:id="@+id/pgConnecting"
                 android:visibility="gone"
+                android:layout_centerVertical="true"
                 android:layout_marginStart="12dp"
                 android:layout_gravity="center_vertical"
                 android:layout_width="30dp"
                 android:layout_height="30dp" />
 
-        </LinearLayout>
+        </RelativeLayout>
 
     </LinearLayout>
 

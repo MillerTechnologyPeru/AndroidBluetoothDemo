@@ -11,4 +11,7 @@
     <string name="bond_state">Bond State: %1$s</string>
     <string name="connect_gatt">Connect</string>
     <string name="device_info_title">DEVICE INFO</string>
+    <string name="gatt_connected">CONNECTED</string>
+    <string name="gatt_connect">CONNECT</string>
+    <string name="gatt_disconnect">DISCONNECT</string>
 </resources>
