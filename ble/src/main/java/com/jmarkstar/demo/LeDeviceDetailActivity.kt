@@ -9,8 +9,7 @@ import com.jmarkstar.demo.le.DemoGattCallback
 import com.jmarkstar.demo.le.DemoLeDevice
 import com.jmarkstar.demo.le.DemoLeUtils
 import kotlinx.android.synthetic.main.activity_le_device_detail.*
-import android.support.v4.app.NavUtils
-
+import android.widget.Toast
 
 
 class LeDeviceDetailActivity : AppCompatActivity() {
@@ -77,20 +76,20 @@ class LeDeviceDetailActivity : AppCompatActivity() {
     }
 
     fun connected(){
-        btnConnectGatt.post {
-            btnConnectGatt.text = getString(R.string.gatt_disconnect)
-            btnConnectGatt.visibility = View.VISIBLE
-            pgConnecting.visibility = View.GONE
-            isConnected = true
-        }
+        btnConnectGatt.text = getString(R.string.gatt_disconnect)
+        btnConnectGatt.visibility = View.VISIBLE
+        pgConnecting.visibility = View.GONE
+        isConnected = true
     }
 
     fun disconnected(){
-        btnConnectGatt.post {
-            btnConnectGatt.text = getString(R.string.gatt_connect)
-            btnConnectGatt.visibility = View.VISIBLE
-            pgConnecting.visibility = View.GONE
-            isConnected = false
-        }
+        btnConnectGatt.text = getString(R.string.gatt_connect)
+        btnConnectGatt.visibility = View.VISIBLE
+        pgConnecting.visibility = View.GONE
+        isConnected = false
+    }
+
+    fun connectionFailure(status: Int){
+        Toast.makeText(this, "Gatt connection error: $status", Toast.LENGTH_SHORT).show()
     }
 }
