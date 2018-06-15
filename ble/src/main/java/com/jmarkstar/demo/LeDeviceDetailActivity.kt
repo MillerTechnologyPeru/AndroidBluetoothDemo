@@ -50,6 +50,15 @@ class LeDeviceDetailActivity : AppCompatActivity() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        if(isConnected && gatt == null){
+            Toast.makeText(this, "GATT is null", Toast.LENGTH_SHORT).show()
+            disconnected()
+        }
+    }
+
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         return when (item?.itemId) {
             android.R.id.home -> {

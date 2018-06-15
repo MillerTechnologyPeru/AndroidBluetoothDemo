@@ -2,6 +2,7 @@ package com.jmarkstar.demo.le
 
 import android.bluetooth.BluetoothGatt
 import android.bluetooth.BluetoothGattCallback
+import android.bluetooth.BluetoothGattCharacteristic
 import android.bluetooth.BluetoothProfile
 import android.os.Handler
 import android.util.Log
@@ -39,12 +40,30 @@ class DemoGattCallback(private val activity: LeDeviceDetailActivity): BluetoothG
             return
         }
 
-        gatt?.services?.forEachIndexed { index, service ->
-            Log.v("gatt service $index", "${DemoLeUtils.showServiceType(service.type)} - ${service.uuid}")
-            service.characteristics.forEachIndexed { index, characteristic ->
-                Log.v("gatt characteristic $index", characteristic.uuid.toString())
+        Log.i("gatt ", gatt?.device?.name)
+
+        gatt?.services?.forEachIndexed { serviceIndex, service ->
+
+            Log.v("gatt service $serviceIndex", "${DemoLeUtils.showServiceType(service.type)} - ${service.uuid}")
+            service.characteristics.forEachIndexed { characIndex, characteristic ->
+
+                gatt.readCharacteristic(characteristic)
+                Log.v("onServicesDiscovered", characteristic?.uuid.toString())
+                characteristic.descriptors.forEachIndexed { index, bluetoothGattDescriptor ->
+                    Log.v("gatt descriptor $index", "${DemoLeUtils.showCharacteristicPermission(bluetoothGattDescriptor.permissions)}}")
+                }
             }
         }
+    }
+
+    override fun onCharacteristicRead(gatt: BluetoothGatt?, characteristic: BluetoothGattCharacteristic?, status: Int) {
+
+        Log.i("onCharacteristicRead", "status = ${DemoLeUtils.showGattStatus(status)}")
+
+        Log.v("onCharacteristicRead", "${characteristic?.uuid} - " +
+                "${DemoLeUtils.showCharacteristicPropery(characteristic?.properties!!)} - " +
+                "${DemoLeUtils.showCharacteristicPermission(characteristic.permissions)} " +
+                "${characteristic.value} - ")
     }
 
     private fun handleError(status: Int): Boolean{
