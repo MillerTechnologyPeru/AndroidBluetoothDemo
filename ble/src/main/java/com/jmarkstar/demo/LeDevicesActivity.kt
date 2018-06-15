@@ -2,6 +2,8 @@ package com.jmarkstar.demo
 
 import android.Manifest
 import android.bluetooth.BluetoothAdapter
+import android.bluetooth.le.ScanFilter
+import android.bluetooth.le.ScanSettings
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.PackageManager
@@ -108,7 +110,15 @@ class LeDevicesActivity : AppCompatActivity() {
     private fun startScan(){
         btnScanLeDevices.text = getString(R.string.scan_stop)
         pgScanning.visibility = View.VISIBLE
-        bluetoothAdapter.bluetoothLeScanner.startScan(leScanCallback)
+
+        val filters = ArrayList<ScanFilter>()
+
+        val settings = ScanSettings.Builder()
+                .setScanMode(ScanSettings.SCAN_MODE_LOW_POWER)
+                .build()
+
+        bluetoothAdapter.bluetoothLeScanner.startScan(filters, settings, leScanCallback)
+
         isScanning = true
         bleDeviceAdapter.refresh()
     }

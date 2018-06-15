@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">BLEw</string>
+    <string name="app_name">BLE Demo</string>
     <string name="scan_start">Start Scan</string>
     <string name="scan_stop">Stop Scan</string>
 
@@ -9,4 +9,6 @@
     <string name="device_class_number">Device Class number: %1$s</string>
     <string name="major_device_class">Major Device Class: %1$s</string>
     <string name="bond_state">Bond State: %1$s</string>
+    <string name="connect_gatt">Connect</string>
+    <string name="device_info_title">DEVICE INFO</string>
 </resources>
