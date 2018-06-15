@@ -37,5 +37,13 @@ class DemoLeUtils {
                 else -> ""
             }
         }
+
+        internal fun showServiceType(type: Int): String{
+            return when(type){
+                0 -> "Primary"
+                1 -> "Secondary"
+                else -> ""
+            }
+        }
     }
 }
