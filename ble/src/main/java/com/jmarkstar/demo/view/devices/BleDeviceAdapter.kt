@@ -1,9 +1,10 @@
-package com.jmarkstar.demo
+package com.jmarkstar.demo.view.devices
 
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.jmarkstar.demo.R
 import com.jmarkstar.demo.le.DemoLeDevice
 import kotlinx.android.synthetic.main.activity_devices_item.view.*
 

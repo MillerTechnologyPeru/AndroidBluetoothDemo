@@ -18,14 +18,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".LeDevicesActivity">
+        <activity android:name=".view.devices.LeDevicesActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".LeDeviceDetailActivity"/>
+        <activity android:name=".view.detail.LeDeviceDetailActivity"/>
     </application>
 
 </manifest>

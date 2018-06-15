@@ -5,7 +5,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.util.Log
-import com.jmarkstar.demo.LeDevicesActivity
+import com.jmarkstar.demo.view.devices.LeDevicesActivity
 
 class BluetoothChangeStateReceiver(private val activity: LeDevicesActivity): BroadcastReceiver() {
 

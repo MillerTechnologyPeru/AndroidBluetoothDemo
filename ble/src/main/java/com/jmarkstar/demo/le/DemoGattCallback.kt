@@ -1,12 +1,9 @@
 package com.jmarkstar.demo.le
 
-import android.bluetooth.BluetoothGatt
-import android.bluetooth.BluetoothGattCallback
-import android.bluetooth.BluetoothGattCharacteristic
-import android.bluetooth.BluetoothProfile
+import android.bluetooth.*
 import android.os.Handler
 import android.util.Log
-import com.jmarkstar.demo.LeDeviceDetailActivity
+import com.jmarkstar.demo.view.detail.LeDeviceDetailActivity
 
 class DemoGattCallback(private val activity: LeDeviceDetailActivity): BluetoothGattCallback() {
 
@@ -36,34 +33,59 @@ class DemoGattCallback(private val activity: LeDeviceDetailActivity): BluetoothG
     override fun onServicesDiscovered(gatt: BluetoothGatt?, status: Int) {
         super.onServicesDiscovered(gatt, status)
 
+        Log.i("onServicesDiscovered", "status = ${DemoLeUtils.showGattStatus(status)}")
         if(!handleError(status)){
             return
         }
 
-        Log.i("gatt ", gatt?.device?.name)
-
         gatt?.services?.forEachIndexed { serviceIndex, service ->
 
             Log.v("gatt service $serviceIndex", "${DemoLeUtils.showServiceType(service.type)} - ${service.uuid}")
+
             service.characteristics.forEachIndexed { characIndex, characteristic ->
 
-                gatt.readCharacteristic(characteristic)
-                Log.v("onServicesDiscovered", characteristic?.uuid.toString())
-                characteristic.descriptors.forEachIndexed { index, bluetoothGattDescriptor ->
-                    Log.v("gatt descriptor $index", "${DemoLeUtils.showCharacteristicPermission(bluetoothGattDescriptor.permissions)}}")
-                }
+                Log.v("onCharacteristicRead", "${characteristic?.uuid} - " +
+                        "${DemoLeUtils.showCharacteristicPropery(characteristic?.properties!!)} - " +
+                        "${DemoLeUtils.showCharacteristicPermission(characteristic.permissions)} ")
+                //gatt.readCharacteristic(characteristic)
             }
         }
     }
 
     override fun onCharacteristicRead(gatt: BluetoothGatt?, characteristic: BluetoothGattCharacteristic?, status: Int) {
+        super.onCharacteristicRead(gatt, characteristic, status)
 
         Log.i("onCharacteristicRead", "status = ${DemoLeUtils.showGattStatus(status)}")
+        if(!handleError(status)){
+            return
+        }
 
         Log.v("onCharacteristicRead", "${characteristic?.uuid} - " +
                 "${DemoLeUtils.showCharacteristicPropery(characteristic?.properties!!)} - " +
-                "${DemoLeUtils.showCharacteristicPermission(characteristic.permissions)} " +
-                "${characteristic.value} - ")
+                "${DemoLeUtils.showCharacteristicPermission(characteristic.permissions)} ")
+
+        var bytes = ""
+        for( byte in characteristic.value) {
+            bytes += "$byte "
+        }
+
+        Log.v("onCharacteristicRead", bytes)
+
+        characteristic.descriptors.forEachIndexed { index, bluetoothGattDescriptor ->
+
+            gatt?.readDescriptor(bluetoothGattDescriptor)
+        }
+    }
+
+    override fun onDescriptorRead(gatt: BluetoothGatt?, descriptor: BluetoothGattDescriptor?, status: Int) {
+        super.onDescriptorRead(gatt, descriptor, status)
+
+        Log.i("onDescriptorRead", "status = ${DemoLeUtils.showGattStatus(status)}")
+        if(!handleError(status)){
+            return
+        }
+
+        Log.v("onDescriptorRead", "Permission = ${DemoLeUtils.showCharacteristicPermission(descriptor?.permissions!!)}}")
     }
 
     private fun handleError(status: Int): Boolean{

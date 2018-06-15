@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="16dp"
-        tools:context=".LeDeviceDetailActivity">
+        tools:context=".view.detail.LeDeviceDetailActivity">
 
         <LinearLayout
             android:orientation="vertical"
@@ -86,6 +86,12 @@
                 android:layout_height="30dp" />
 
         </RelativeLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rvGattInfo"
+            android:nestedScrollingEnabled="false"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
     </LinearLayout>
 

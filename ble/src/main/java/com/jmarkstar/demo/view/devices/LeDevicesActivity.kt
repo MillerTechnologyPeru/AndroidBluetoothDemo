@@ -1,4 +1,4 @@
-package com.jmarkstar.demo
+package com.jmarkstar.demo.view.devices
 
 import android.Manifest
 import android.bluetooth.BluetoothAdapter
@@ -13,9 +13,10 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import com.jmarkstar.demo.view.detail.LeDeviceDetailActivity
+import com.jmarkstar.demo.R
 import com.jmarkstar.demo.broadcastreceivers.BluetoothChangeStateReceiver
 import com.jmarkstar.demo.le.DemoLeScanCallback
-import kotlinx.android.synthetic.main.activity_le_devices.*
 
 class LeDevicesActivity : AppCompatActivity() {
 

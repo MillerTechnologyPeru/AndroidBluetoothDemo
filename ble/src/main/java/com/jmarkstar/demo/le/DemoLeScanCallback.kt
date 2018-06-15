@@ -3,7 +3,7 @@ package com.jmarkstar.demo.le
 import android.bluetooth.le.ScanCallback
 import android.bluetooth.le.ScanResult
 import android.util.Log
-import com.jmarkstar.demo.LeDevicesActivity
+import com.jmarkstar.demo.view.devices.LeDevicesActivity
 
 class DemoLeScanCallback(val activity: LeDevicesActivity): ScanCallback() {
 

@@ -1,4 +1,4 @@
-package com.jmarkstar.demo
+package com.jmarkstar.demo.view.detail
 
 import android.bluetooth.BluetoothGatt
 import android.support.v7.app.AppCompatActivity
@@ -8,8 +8,8 @@ import android.view.View
 import com.jmarkstar.demo.le.DemoGattCallback
 import com.jmarkstar.demo.le.DemoLeDevice
 import com.jmarkstar.demo.le.DemoLeUtils
-import kotlinx.android.synthetic.main.activity_le_device_detail.*
 import android.widget.Toast
+import com.jmarkstar.demo.R
 
 
 class LeDeviceDetailActivity : AppCompatActivity() {
