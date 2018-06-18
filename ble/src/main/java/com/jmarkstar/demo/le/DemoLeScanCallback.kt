@@ -5,7 +5,7 @@ import android.bluetooth.le.ScanResult
 import android.util.Log
 import com.jmarkstar.demo.view.devices.LeDevicesActivity
 
-class DemoLeScanCallback(val activity: LeDevicesActivity): ScanCallback() {
+class DemoLeScanCallback(private val activity: LeDevicesActivity): ScanCallback() {
 
     override fun onBatchScanResults(results: MutableList<ScanResult>?) {
         super.onBatchScanResults(results)
