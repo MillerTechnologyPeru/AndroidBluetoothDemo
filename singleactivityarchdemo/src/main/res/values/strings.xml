@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">SingleActivityArchDemo</string>
+    <string name="scan_start">Start Scan</string>
+    <string name="scan_stop">Stop Scan</string>
+
+    <string name="device_name">Device Name: %1$s</string>
+    <string name="device_address">Device Address: %1$s</string>
+    <string name="device_type">Device Type: %1$s</string>
+    <string name="device_class_number">Device Class number: %1$s</string>
+    <string name="major_device_class">Major Device Class: %1$s</string>
+    <string name="bond_state">Bond State: %1$s</string>
+    <string name="connect_gatt">Connect</string>
+    <string name="device_info_title">DEVICE INFO</string>
+    <string name="gatt_connected">CONNECTED</string>
+    <string name="gatt_connect">CONNECT</string>
+    <string name="gatt_disconnect">DISCONNECT</string>
+
+    <string name="service_type">Service: %1$s</string>
+    <string name="service_uuid">UUID: %1$s</string>
+
+    <string name="char_uuid">UUID: %1$s</string>
+    <string name="char_property">PROPERTY: %1$s</string>
+    <string name="char_permission">PERMISSION: %1$s</string>
+</resources>
